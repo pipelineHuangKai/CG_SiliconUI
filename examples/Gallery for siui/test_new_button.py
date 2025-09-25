@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import os
 
-from PyQt5.QtCore import QRect, QRectF, Qt
-from PyQt5.QtGui import QColor, QIcon, QPainter, QPainterPath, QPaintEvent
-from PyQt5.QtWidgets import QApplication, QPushButton, QVBoxLayout, QWidget
+from Qt.QtCore import QRect, QRectF, Qt
+from Qt.QtGui import QColor, QIcon, QPainter, QPainterPath, QPaintEvent
+from Qt.QtWidgets import QApplication, QPushButton, QVBoxLayout, QWidget
 
 from siui.core import GlobalFont, SiColor, SiExpAnimation
 from siui.gui import SiFont

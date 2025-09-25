@@ -1,7 +1,7 @@
 from typing import Tuple, Union
 
-from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QGraphicsOpacityEffect, QWidget
+from Qt.QtGui import QColor
+from Qt.QtWidgets import QGraphicsDropShadowEffect, QGraphicsOpacityEffect, QWidget
 
 
 class SiQuickEffect:

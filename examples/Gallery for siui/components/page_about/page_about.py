@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt, QUrl
-from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtWidgets import QSizePolicy
+from Qt.QtCore import Qt, QUrl
+from Qt.QtGui import QDesktopServices
+from Qt.QtWidgets import QSizePolicy
 
 from siui.components import (
     SiDenseVContainer,

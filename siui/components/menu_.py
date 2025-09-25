@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from PyQt5.QtCore import QEvent, QMargins, QObject, QPoint, QRect, QRectF, QSize, Qt, QTimer, pyqtProperty, pyqtSignal
-from PyQt5.QtGui import QColor, QIcon, QKeySequence, QPainter, QPainterPath, QTextOption
-from PyQt5.QtWidgets import QAction, QActionGroup, QApplication, QHBoxLayout, QLabel, QMenu, QSpacerItem, QWidget
+from Qt.QtCore import QEvent, QMargins, QObject, QPoint, QRect, QRectF, QSize, Qt, QTimer, Property, Signal
+from Qt.QtGui import QColor, QIcon, QKeySequence, QPainter, QPainterPath, QTextOption
+from Qt.QtWidgets import QAction, QActionGroup, QApplication, QHBoxLayout, QLabel, QMenu, QSpacerItem, QWidget
 
 from siui.components.button import SiTransparentButton
 from siui.components.container import SiDenseContainer
@@ -126,8 +126,8 @@ class SiMenuItem(QObject):
 
 class SiMenuItemWidget(QWidget):
     """所有菜单项 widget 的基类"""
-    reachedEnd = pyqtSignal()
-    peeked = pyqtSignal(QAction)
+    reachedEnd = Signal()
+    peeked = Signal(QAction)
 
     def __init__(self, action: QAction | None, parent=None):
         super().__init__(parent)
@@ -551,7 +551,7 @@ class SiRoundedMenuActivationFilter(QObject):
 
 
 class SiRoundedMenu(QMenu):
-    class Property:
+    class Property_:
         ViewSize = "viewSize"
 
     def __init__(self, parent: T_WidgetParent = None) -> None:
@@ -582,7 +582,7 @@ class SiRoundedMenu(QMenu):
         self._scroll_area = SiScrollAreaRefactor(self)
         self._container = SiDenseContainer(self._scroll_area, SiDenseContainer.TopToBottom)
 
-        self.ani_scroll_area_size = SiExpAnimationRefactor(self, self.Property.ViewSize)
+        self.ani_scroll_area_size = SiExpAnimationRefactor(self, self.Property_.ViewSize)
         self.ani_scroll_area_size.init(1 / 6, 1, self._scroll_area_size, self._scroll_area_size)
 
         self._initStyle()
@@ -616,7 +616,7 @@ class SiRoundedMenu(QMenu):
     def _applyGraphicEffect(self) -> None:
         SiQuickEffect.applyDropShadowOn(self._background, color=(0, 0, 0, 128))
 
-    @pyqtProperty(QSize)
+    @Property(QSize)
     def viewSize(self):
         return self._scroll_area_size
 

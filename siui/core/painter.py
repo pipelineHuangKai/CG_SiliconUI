@@ -4,8 +4,8 @@ import math
 from contextlib import contextmanager
 from functools import lru_cache
 
-from PyQt5.QtCore import QPoint, QPointF, QRectF, Qt
-from PyQt5.QtGui import QColor, QLinearGradient, QPaintDevice, QPainter, QPainterPath
+from Qt.QtCore import QPoint, QPointF, QRectF, Qt
+from Qt.QtGui import QColor, QLinearGradient, QPaintDevice, QPainter, QPainterPath
 
 
 @contextmanager

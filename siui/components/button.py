@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from PyQt5.QtCore import (
+from Qt.QtCore import (
     QEvent,
     QMargins,
     QObject,
@@ -14,10 +14,10 @@ from PyQt5.QtCore import (
     QSize,
     Qt,
     QTimer,
-    pyqtProperty,
-    pyqtSignal,
+    Property,
+    Signal,
 )
-from PyQt5.QtGui import (
+from Qt.QtGui import (
     QColor,
     QFont,
     QFontMetrics,
@@ -31,8 +31,8 @@ from PyQt5.QtGui import (
     QTextOption,
     QTransform,
 )
-from PyQt5.QtSvg import QSvgRenderer
-from PyQt5.QtWidgets import QAbstractButton, QLabel, QPushButton, QRadioButton, QSizePolicy
+from Qt.QtSvg import QSvgRenderer
+from Qt.QtWidgets import QAbstractButton, QLabel, QPushButton, QRadioButton, QSizePolicy
 from typing_extensions import Self
 
 from siui.core import GlobalFont, SiGlobal, createPainter
@@ -189,7 +189,7 @@ class ToggleButtonStyleData(ButtonStyleData):
 
 
 class ABCButton(QPushButton):
-    class Property:
+    class Property_:
         ScaleFactor = "scaleFactor"
         TextColor = "textColor"
         ButtonRectColor = "buttonRectColor"
@@ -210,12 +210,12 @@ class ABCButton(QPushButton):
         self._button_rect_color = None
         self._text_color = None
 
-        self.highlight_ani = SiExpAnimationRefactor(self, self.Property.HighlightRectColor)
+        self.highlight_ani = SiExpAnimationRefactor(self, self.Property_.HighlightRectColor)
         self.highlight_ani.init(1 / 8, 0.2, self._highlight_rect_color, self._highlight_rect_color)
 
         self.clicked.connect(self._onButtonClicked)
 
-    @pyqtProperty(float)
+    @Property(float)
     def scaleFactor(self):
         return self._scale_factor
 
@@ -224,7 +224,7 @@ class ABCButton(QPushButton):
         self._scale_factor = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def highlightRectColor(self):
         return self._highlight_rect_color
 
@@ -233,7 +233,7 @@ class ABCButton(QPushButton):
         self._highlight_rect_color = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def buttonRectColor(self):
         return self._button_rect_color
 
@@ -242,7 +242,7 @@ class ABCButton(QPushButton):
         self._button_rect_color = color
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def backgroundRectColor(self):
         return self._background_rect_color
 
@@ -251,7 +251,7 @@ class ABCButton(QPushButton):
         self._background_rect_color = color
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def textColor(self):
         return self._text_color
 
@@ -260,7 +260,7 @@ class ABCButton(QPushButton):
         self._text_color = color
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def progress(self):
         return self._progress
 
@@ -269,7 +269,7 @@ class ABCButton(QPushButton):
         self._progress = max(0.0, min(value, 1.0))
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def progressRectColor(self):
         return self._progress_rect_color
 
@@ -362,7 +362,7 @@ class SiPushButtonRefactor(ABCButton):
         self._initStyle()
         self._scale_factor = 1
 
-        self.scale_factor_ani = SiExpAnimationRefactor(self, self.Property.ScaleFactor)
+        self.scale_factor_ani = SiExpAnimationRefactor(self, self.Property_.ScaleFactor)
         self.scale_factor_ani.init(1 / 16, 0, 1, 1)
 
     @classmethod
@@ -518,10 +518,10 @@ class SiProgressPushButton(SiPushButtonRefactor):
         self._progress_rect_color = self.style_data.progress_color
         self._progress = 0
 
-        self.progress_ani = SiExpAnimationRefactor(self, self.Property.Progress)
+        self.progress_ani = SiExpAnimationRefactor(self, self.Property_.Progress)
         self.progress_ani.init(1 / 6, 0.005, 0, 0)
 
-        self.progress_color_ani = SiExpAnimationRefactor(self, self.Property.ProgressRectColor)
+        self.progress_color_ani = SiExpAnimationRefactor(self, self.Property_.ProgressRectColor)
         self.progress_color_ani.init(1 / 8, 0.01, self._progress_rect_color, self._progress_rect_color)
 
     def setProgress(self, p: float, ani: bool = True) -> None:
@@ -560,7 +560,7 @@ class SiProgressPushButton(SiPushButtonRefactor):
 
 
 class SiLongPressButtonRefactor(SiPushButtonRefactor):
-    longPressed = pyqtSignal()
+    longPressed = Signal()
 
     def __init__(self, parent: T_WidgetParent = None) -> None:
         super().__init__(parent)
@@ -568,7 +568,7 @@ class SiLongPressButtonRefactor(SiPushButtonRefactor):
         self.style_data = LongPressButtonStyleData()
         self._progress = 0
 
-        self.progress_ani = SiExpAnimationRefactor(self, self.Property.Progress)
+        self.progress_ani = SiExpAnimationRefactor(self, self.Property_.Progress)
         self.progress_ani.init(-1 / 16, 0.12, 0, 0)
 
         self.go_backwards_timer = QTimer(self)
@@ -650,7 +650,7 @@ class SiFlatButton(ABCButton):
         self._initStyle()
         self._scale_factor = 1
 
-        self.scale_factor_ani = SiExpAnimationRefactor(self, self.Property.ScaleFactor)
+        self.scale_factor_ani = SiExpAnimationRefactor(self, self.Property_.ScaleFactor)
         self.scale_factor_ani.init(1 / 16, 0, 1, 1)
 
     def _initStyle(self):
@@ -764,7 +764,7 @@ class SiFlatButton(ABCButton):
 
 
 class SiFlatButtonWithIndicator(SiFlatButton):
-    class Property:
+    class Property_:
         ScaleFactor = "scaleFactor"
         TextColor = "textColor"
         ButtonRectColor = "buttonRectColor"
@@ -781,15 +781,15 @@ class SiFlatButtonWithIndicator(SiFlatButton):
         self._indicator_width = 0
         self._indicator_color = self.style_data.indicator_idle_color
 
-        self.indi_width_ani = SiExpAnimationRefactor(self, self.Property.IndicatorWidth)
+        self.indi_width_ani = SiExpAnimationRefactor(self, self.Property_.IndicatorWidth)
         self.indi_width_ani.init(1/3, 0.001, 0, 0)
 
-        self.indi_color_ani = SiExpAnimationRefactor(self, self.Property.IndicatorColor)
+        self.indi_color_ani = SiExpAnimationRefactor(self, self.Property_.IndicatorColor)
         self.indi_color_ani.init(1/6, 0.001, self._indicator_color, self._indicator_color)
 
         self.toggled.connect(self._onButtonToggled)
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def indicatorColor(self):
         return self._indicator_color
 
@@ -798,7 +798,7 @@ class SiFlatButtonWithIndicator(SiFlatButton):
         self._indicator_color = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def indicatorWidth(self):
         return self._indicator_width
 
@@ -905,10 +905,10 @@ class SiToggleButtonRefactor(SiFlatButton):
         self._button_rect_color = self.style_data.button_color
         self._text_color = self.style_data.text_color
 
-        self.toggle_btn_color_ani = SiExpAnimationRefactor(self, self.Property.ButtonRectColor)
+        self.toggle_btn_color_ani = SiExpAnimationRefactor(self, self.Property_.ButtonRectColor)
         self.toggle_btn_color_ani.init(1 / 8, 0.01, self._button_rect_color, self._button_rect_color)
 
-        self.toggle_text_color_ani = SiExpAnimationRefactor(self, self.Property.TextColor)
+        self.toggle_text_color_ani = SiExpAnimationRefactor(self, self.Property_.TextColor)
         self.toggle_text_color_ani.init(1 / 8, 0.01, self._text_color, self._text_color)
 
         self.toggled.connect(self._onButtonToggled)
@@ -952,7 +952,7 @@ class SwitchStyleData(QObject):
 
 
 class SiSwitchRefactor(QPushButton):
-    class Property:
+    class Property_:
         Progress = "progress"
         ScaleFactor = "scaleFactor"
 
@@ -966,10 +966,10 @@ class SiSwitchRefactor(QPushButton):
 
         self._initStyle()
 
-        self.scale_factor_ani = SiExpAnimationRefactor(self, self.Property.ScaleFactor)
+        self.scale_factor_ani = SiExpAnimationRefactor(self, self.Property_.ScaleFactor)
         self.scale_factor_ani.init(1 / 16, 0, 1, 1)
 
-        self.progress_ani = SiExpAnimationRefactor(self, self.Property.Progress)
+        self.progress_ani = SiExpAnimationRefactor(self, self.Property_.Progress)
         self.progress_ani.init(1 / 4, 0.01, 0, 0)
 
         self.clicked.connect(self._onClicked)
@@ -977,7 +977,7 @@ class SiSwitchRefactor(QPushButton):
     def _initStyle(self) -> None:
         self.setFixedSize(40, 20)
 
-    @pyqtProperty(float)
+    @Property(float)
     def scaleFactor(self):
         return self._scale_factor
 
@@ -986,7 +986,7 @@ class SiSwitchRefactor(QPushButton):
         self._scale_factor = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def progress(self) -> float:
         return self._progress
 
@@ -1135,7 +1135,7 @@ class RadioButtonStyleDataR:
 
 
 class SiRadioButtonR(QRadioButton):
-    class Property:
+    class Property_:
         ScaleFactor = "scaleFactor"
         IndicatorColor = "indicatorColor"
         IndicatorSpinProg = "indicatorSpinProg"
@@ -1151,16 +1151,16 @@ class SiRadioButtonR(QRadioButton):
         self._indi_color = self.style_data.indicator_idle_color
         self._indi_strike_color = self.style_data.indicator_idle_strike_color
 
-        self.scale_factor_ani = SiExpAnimationRefactor(self, self.Property.ScaleFactor)
+        self.scale_factor_ani = SiExpAnimationRefactor(self, self.Property_.ScaleFactor)
         self.scale_factor_ani.init(1/16, 0, 1, 1)
 
-        self.indi_spin_prog_ani = SiExpAnimationRefactor(self, self.Property.IndicatorSpinProg)
+        self.indi_spin_prog_ani = SiExpAnimationRefactor(self, self.Property_.IndicatorSpinProg)
         self.indi_spin_prog_ani.init(1/5, 0.0001, 1, 1)
 
-        self.indi_color_ani = SiExpAnimationRefactor(self, self.Property.IndicatorColor)
+        self.indi_color_ani = SiExpAnimationRefactor(self, self.Property_.IndicatorColor)
         self.indi_color_ani.init(1/8, 0.001, self._indi_color, self._indi_color)
 
-        self.indi_strike_color_ani = SiExpAnimationRefactor(self, self.Property.IndicatorStrikeColor)
+        self.indi_strike_color_ani = SiExpAnimationRefactor(self, self.Property_.IndicatorStrikeColor)
         self.indi_strike_color_ani.init(1/4, 0.001, self._indi_strike_color, self._indi_strike_color)
 
         self._initStyle()
@@ -1176,7 +1176,7 @@ class SiRadioButtonR(QRadioButton):
             "}"
         )
 
-    @pyqtProperty(float)
+    @Property(float)
     def scaleFactor(self):
         return self._scale_factor
 
@@ -1185,7 +1185,7 @@ class SiRadioButtonR(QRadioButton):
         self._scale_factor = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def indicatorColor(self):
         return self._indi_color
 
@@ -1194,7 +1194,7 @@ class SiRadioButtonR(QRadioButton):
         self._indi_color = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def indicatorSpinProg(self):
         return self._indi_spin_prog
 
@@ -1203,7 +1203,7 @@ class SiRadioButtonR(QRadioButton):
         self._indi_spin_prog = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def indicatorStrikeColor(self):
         return self._indi_strike_color
 
@@ -1319,7 +1319,7 @@ class SiRadioButtonR(QRadioButton):
 
 
 class SiRadioButtonRefactor(QRadioButton):
-    class Property:
+    class Property_:
         IndicatorWidthProg = "indicatorWidthProg"
         IndicatorHoverWidth = "indicatorHoverWidth"
         IndicatorColor = "indicatorColor"
@@ -1335,16 +1335,16 @@ class SiRadioButtonRefactor(QRadioButton):
         self._indi_color = self.style_data.unchecked_indicator_color
         self._hl_color = self.style_data.highlight_idle_color
 
-        self.indi_width_ani = SiExpAnimationRefactor(self, self.Property.IndicatorWidthProg)
+        self.indi_width_ani = SiExpAnimationRefactor(self, self.Property_.IndicatorWidthProg)
         self.indi_width_ani.init(1 / 6, 0.015, 0, 0)
 
-        self.indi_hover_width_ani = SiExpAnimationRefactor(self, self.Property.IndicatorHoverWidth)
+        self.indi_hover_width_ani = SiExpAnimationRefactor(self, self.Property_.IndicatorHoverWidth)
         self.indi_hover_width_ani.init(1 / 4, 0.01, 0, 0)
 
-        self.indi_color_ani = SiExpAnimationRefactor(self, self.Property.IndicatorColor)
+        self.indi_color_ani = SiExpAnimationRefactor(self, self.Property_.IndicatorColor)
         self.indi_color_ani.init(1 / 3, 1, self._indi_color, self._indi_color)
 
-        self.highlight_color_ani = SiExpAnimationRefactor(self, self.Property.HighlightRectColor)
+        self.highlight_color_ani = SiExpAnimationRefactor(self, self.Property_.HighlightRectColor)
         self.highlight_color_ani.init(1 / 8, 0.1, self._hl_color, self._hl_color)
 
         self.toggled.connect(self._onButtonToggled)
@@ -1354,7 +1354,7 @@ class SiRadioButtonRefactor(QRadioButton):
     def _initStyle(self) -> None:
         self.setFont(SiFont.getFont(size=13))
 
-    @pyqtProperty(float)
+    @Property(float)
     def indicatorWidthProg(self):
         return self._indi_width_prog
 
@@ -1363,7 +1363,7 @@ class SiRadioButtonRefactor(QRadioButton):
         self._indi_width_prog = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def indicatorHoverWidth(self):
         return self._indi_hover_width
 
@@ -1372,7 +1372,7 @@ class SiRadioButtonRefactor(QRadioButton):
         self._indi_hover_width = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def indicatorColor(self):
         return self._indi_color
 
@@ -1381,7 +1381,7 @@ class SiRadioButtonRefactor(QRadioButton):
         self._indi_color = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def highlightRectColor(self):
         return self._hl_color
 
@@ -1436,7 +1436,7 @@ class SiRadioButtonRefactor(QRadioButton):
             self.indi_width_ani.setEndValue(1)
             self.indi_color_ani.setEndValue(sd.checked_indicator_color)
             self.indi_color_ani.setCurrentValue(sd.checked_indicator_color)
-            self.setProperty(self.Property.IndicatorColor, sd.checked_indicator_color)
+            self.setProperty(self.Property_.IndicatorColor, sd.checked_indicator_color)
         else:
             self.indi_width_ani.setEndValue(0)
             self.indi_width_ani.setCurrentValue(0.5)
@@ -1602,7 +1602,7 @@ class TransparentButtonStyleData:
 
 
 class SiTransparentButton(QAbstractButton):
-    class Property:
+    class Property_:
         HoverOverlayColor = "hoverOverlayColor"
 
     def __init__(self, parent: T_WidgetParent = None) -> None:
@@ -1614,10 +1614,10 @@ class SiTransparentButton(QAbstractButton):
         self._border_radius = 4
         self._hover_overlay_color = self.style_data.hover_overlay_color_idle
 
-        self.ani_hover_overlay_color = SiExpAnimationRefactor(self, self.Property.HoverOverlayColor)
+        self.ani_hover_overlay_color = SiExpAnimationRefactor(self, self.Property_.HoverOverlayColor)
         self.ani_hover_overlay_color.init(1/8, 1, self._hover_overlay_color, self._hover_overlay_color)
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def hoverOverlayColor(self):
         return self._hover_overlay_color
 
@@ -1628,7 +1628,7 @@ class SiTransparentButton(QAbstractButton):
 
     def animation(self, prop_name: str) -> SiExpAnimationRefactor:
         return {
-            self.Property.HoverOverlayColor: self.ani_hover_overlay_color,
+            self.Property_.HoverOverlayColor: self.ani_hover_overlay_color,
         }.get(prop_name)
 
     def setBorderRadius(self, r: int) -> None:
@@ -1696,7 +1696,7 @@ class CheckBoxStyleData:
 
 
 class SiCheckBoxRefactor(QAbstractButton):
-    class Property:
+    class Property_:
         FlashColor = "flashColor"
         HoverColor = "hoverColor"
         ScaleFactor = "scaleFactor"
@@ -1715,13 +1715,13 @@ class SiCheckBoxRefactor(QAbstractButton):
         self._scale_factor = 1
         self._description_text = ""
 
-        self.ani_flash_color = SiExpAnimationRefactor(self, self.Property.FlashColor)
+        self.ani_flash_color = SiExpAnimationRefactor(self, self.Property_.FlashColor)
         self.ani_flash_color.init(1/8, 1, self._flash_color, self._flash_color)
 
-        self.ani_hover_color = SiExpAnimationRefactor(self, self.Property.HoverColor)
+        self.ani_hover_color = SiExpAnimationRefactor(self, self.Property_.HoverColor)
         self.ani_hover_color.init(1/8, 1, self._hover_color, self._hover_color)
 
-        self.ani_scale_factor = SiExpAnimationRefactor(self, self.Property.ScaleFactor)
+        self.ani_scale_factor = SiExpAnimationRefactor(self, self.Property_.ScaleFactor)
         self.ani_scale_factor.init(1/8, 0.001, self._scale_factor, self._scale_factor)
 
         self._title_label = QLabel(self)
@@ -1753,7 +1753,7 @@ class SiCheckBoxRefactor(QAbstractButton):
         self._scale_manager.setMinScaleFactor(0.95)
         self.installEventFilter(self._scale_manager)
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def flashColor(self):
         return self._flash_color
 
@@ -1762,7 +1762,7 @@ class SiCheckBoxRefactor(QAbstractButton):
         self._flash_color = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def hoverColor(self):
         return self._hover_color
 
@@ -1771,7 +1771,7 @@ class SiCheckBoxRefactor(QAbstractButton):
         self._hover_color = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def scaleFactor(self):
         return self._scale_factor
 
@@ -1836,9 +1836,9 @@ class SiCheckBoxRefactor(QAbstractButton):
 
     def animation(self, prop_name: str) -> SiExpAnimationRefactor:
         return {
-            self.Property.FlashColor: self.ani_flash_color,
-            self.Property.HoverColor: self.ani_hover_color,
-            self.Property.ScaleFactor: self.ani_scale_factor,
+            self.Property_.FlashColor: self.ani_flash_color,
+            self.Property_.HoverColor: self.ani_hover_color,
+            self.Property_.ScaleFactor: self.ani_scale_factor,
         }.get(prop_name)
 
     def setDescription(self, text) -> None:
@@ -1989,7 +1989,7 @@ class CapsuleButtonStyleData:
 
 
 class SiCapsuleButton(QAbstractButton):
-    class Property:
+    class Property_:
         LabelBackgroundColor = "labelBackgroundColor"
         LabelTextColor = "labelTextColor"
         ValueBackgroundColor = "valueBackgroundColor"
@@ -2024,25 +2024,25 @@ class SiCapsuleButton(QAbstractButton):
         self._value_y_offset = 0.0
         self._scale_factor = 1
 
-        self.ani_label_bg_color = SiExpAnimationRefactor(self, self.Property.LabelBackgroundColor)
+        self.ani_label_bg_color = SiExpAnimationRefactor(self, self.Property_.LabelBackgroundColor)
         self.ani_label_bg_color.init(1/8, 1, self._label_bg_color, self._label_bg_color)
 
-        self.ani_label_text_color = SiExpAnimationRefactor(self, self.Property.LabelTextColor)
+        self.ani_label_text_color = SiExpAnimationRefactor(self, self.Property_.LabelTextColor)
         self.ani_label_text_color.init(1/8, 1, self._label_text_color, self._label_text_color)
 
-        self.ani_value_bg_color = SiExpAnimationRefactor(self, self.Property.ValueBackgroundColor)
+        self.ani_value_bg_color = SiExpAnimationRefactor(self, self.Property_.ValueBackgroundColor)
         self.ani_value_bg_color.init(1/8, 1, self._value_bg_color, self._value_bg_color)
 
-        self.ani_value_text_color = SiExpAnimationRefactor(self, self.Property.ValueTextColor)
+        self.ani_value_text_color = SiExpAnimationRefactor(self, self.Property_.ValueTextColor)
         self.ani_value_text_color.init(1/8, 1, self._value_text_color, self._value_text_color)
 
-        self.ani_hover_overlay_color = SiExpAnimationRefactor(self, self.Property.HoverOverlayColor)
+        self.ani_hover_overlay_color = SiExpAnimationRefactor(self, self.Property_.HoverOverlayColor)
         self.ani_hover_overlay_color.init(1/8, 1, self._hover_overlay_color, self._hover_overlay_color)
 
-        self.ani_value_y_offset = SiExpAnimationRefactor(self, self.Property.ValueYOffset)
+        self.ani_value_y_offset = SiExpAnimationRefactor(self, self.Property_.ValueYOffset)
         self.ani_value_y_offset.init(1/8, 0.001, self._value_y_offset, self._value_y_offset)
 
-        self.ani_scale_factor = SiExpAnimationRefactor(self, self.Property.ScaleFactor)
+        self.ani_scale_factor = SiExpAnimationRefactor(self, self.Property_.ScaleFactor)
         self.ani_scale_factor.init(1/8, 0.001, self._scale_factor, self._scale_factor)
 
         self._initScaleOnPressEventFilter()
@@ -2060,7 +2060,7 @@ class SiCapsuleButton(QAbstractButton):
 
     # region Properties
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def labelBackgroundColor(self):
         return self._label_bg_color
 
@@ -2069,7 +2069,7 @@ class SiCapsuleButton(QAbstractButton):
         self._label_bg_color = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def labelTextColor(self):
         return self._label_text_color
 
@@ -2078,7 +2078,7 @@ class SiCapsuleButton(QAbstractButton):
         self._label_text_color = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def valueBackgroundColor(self):
         return self._value_bg_color
 
@@ -2087,7 +2087,7 @@ class SiCapsuleButton(QAbstractButton):
         self._value_bg_color = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def valueTextColor(self):
         return self._value_text_color
 
@@ -2096,7 +2096,7 @@ class SiCapsuleButton(QAbstractButton):
         self._value_text_color = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def hoverOverlayColor(self):
         return self._hover_overlay_color
 
@@ -2105,7 +2105,7 @@ class SiCapsuleButton(QAbstractButton):
         self._hover_overlay_color = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def valueYOffset(self):
         return self._value_y_offset
 
@@ -2114,7 +2114,7 @@ class SiCapsuleButton(QAbstractButton):
         self._value_y_offset = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def scaleFactor(self):
         return self._scale_factor
 
@@ -2127,13 +2127,13 @@ class SiCapsuleButton(QAbstractButton):
 
     def animation(self, prop_name: str) -> SiExpAnimationRefactor:
         return {
-            self.Property.LabelBackgroundColor: self.ani_label_bg_color,
-            self.Property.LabelTextColor: self.ani_label_text_color,
-            self.Property.ValueBackgroundColor: self.ani_value_bg_color,
-            self.Property.ValueTextColor: self.ani_value_text_color,
-            self.Property.HoverOverlayColor: self.ani_hover_overlay_color,
-            self.Property.ValueYOffset: self.ani_value_y_offset,
-            self.Property.ScaleFactor: self.ani_scale_factor,
+            self.Property_.LabelBackgroundColor: self.ani_label_bg_color,
+            self.Property_.LabelTextColor: self.ani_label_text_color,
+            self.Property_.ValueBackgroundColor: self.ani_value_bg_color,
+            self.Property_.ValueTextColor: self.ani_value_text_color,
+            self.Property_.HoverOverlayColor: self.ani_hover_overlay_color,
+            self.Property_.ValueYOffset: self.ani_value_y_offset,
+            self.Property_.ScaleFactor: self.ani_scale_factor,
         }.get(prop_name)
 
     def sizeHint(self) -> QSize:
@@ -2315,7 +2315,7 @@ class OptionButtonStyleData:
 
 
 class SiOptionButton(QAbstractButton):
-    class Property:
+    class Property_:
         ScaleFactor = "scaleFactor"
         IndicatorColor = "indicatorColor"
         HoverOverlayColor = "hoverOverlayColor"
@@ -2335,13 +2335,13 @@ class SiOptionButton(QAbstractButton):
         self._indicator_color = self.style_data.indicator_deactivated
         self._hover_overlay_color = self.style_data.hover_overlay_idle
 
-        self.ani_scale_factor = SiExpAnimationRefactor(self, self.Property.ScaleFactor)
+        self.ani_scale_factor = SiExpAnimationRefactor(self, self.Property_.ScaleFactor)
         self.ani_scale_factor.init(1/8, 0.001, self._scale_factor, self._scale_factor)
 
-        self.ani_indicator_color = SiExpAnimationRefactor(self, self.Property.IndicatorColor)
+        self.ani_indicator_color = SiExpAnimationRefactor(self, self.Property_.IndicatorColor)
         self.ani_indicator_color.init(1/16, 0.1, self._indicator_color, self._indicator_color)
 
-        self.ani_hover_overlay_color = SiExpAnimationRefactor(self, self.Property.HoverOverlayColor)
+        self.ani_hover_overlay_color = SiExpAnimationRefactor(self, self.Property_.HoverOverlayColor)
         self.ani_hover_overlay_color.init(1/8, 1, self._hover_overlay_color, self._hover_overlay_color)
 
         self._initScaleOnPressEventFilter()
@@ -2360,7 +2360,7 @@ class SiOptionButton(QAbstractButton):
 
     # region animation property
 
-    @pyqtProperty(float)
+    @Property(float)
     def scaleFactor(self):
         return self._scale_factor
 
@@ -2369,7 +2369,7 @@ class SiOptionButton(QAbstractButton):
         self._scale_factor = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def indicatorColor(self):
         return self._indicator_color
 
@@ -2378,7 +2378,7 @@ class SiOptionButton(QAbstractButton):
         self._indicator_color = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def hoverOverlayColor(self):
         return self._hover_overlay_color
 
@@ -2389,9 +2389,9 @@ class SiOptionButton(QAbstractButton):
 
     def animation(self, prop_name: str) -> SiExpAnimationRefactor:
         return {
-            self.Property.ScaleFactor: self.ani_scale_factor,
-            self.Property.IndicatorColor: self.ani_indicator_color,
-            self.Property.HoverOverlayColor: self.ani_hover_overlay_color,
+            self.Property_.ScaleFactor: self.ani_scale_factor,
+            self.Property_.IndicatorColor: self.ani_indicator_color,
+            self.Property_.HoverOverlayColor: self.ani_hover_overlay_color,
         }.get(prop_name)
 
     # endregion

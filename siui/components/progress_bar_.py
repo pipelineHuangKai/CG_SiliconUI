@@ -1,7 +1,7 @@
 
-from PyQt5.QtCore import QTimer, QRect, QRectF, Qt, pyqtProperty, pyqtSignal
-from PyQt5.QtGui import QColor, QPainter, QPainterPath
-from PyQt5.QtWidgets import QProgressBar
+from Qt.QtCore import QTimer, QRect, QRectF, Qt, Property, Signal
+from Qt.QtGui import QColor, QPainter, QPainterPath
+from Qt.QtWidgets import QProgressBar
 
 from siui.core import createPainter
 from siui.core.animation import SiExpAnimationRefactor
@@ -21,7 +21,7 @@ class ProgressBarStyleData:
 
 
 class SiProgressBarRefactor(QProgressBar):
-    stateChanged = pyqtSignal(int)
+    stateChanged = Signal(int)
 
     class State:
         Loading = 0
@@ -29,7 +29,7 @@ class SiProgressBarRefactor(QProgressBar):
         Paused = 2
         Error = 3
 
-    class Property:
+    class Property_:
         ProgressColor = "progressColor"
         ProgressValue = "progressValue"
         FlashColor = "flashColor"
@@ -46,13 +46,13 @@ class SiProgressBarRefactor(QProgressBar):
         self._prog_value = self.minimum()
         self._flash_color = self.style_data.flash_end_color
 
-        self.ani_prog_color = SiExpAnimationRefactor(self, self.Property.ProgressColor)
+        self.ani_prog_color = SiExpAnimationRefactor(self, self.Property_.ProgressColor)
         self.ani_prog_color.init(1/4, 0.001, self._prog_color, self._prog_color)
 
-        self.ani_prog_value = SiExpAnimationRefactor(self, self.Property.ProgressValue)
+        self.ani_prog_value = SiExpAnimationRefactor(self, self.Property_.ProgressValue)
         self.ani_prog_value.init(1/4, 0.001, self._prog_value, self._prog_value)
 
-        self.ani_flash_color = SiExpAnimationRefactor(self, self.Property.FlashColor)
+        self.ani_flash_color = SiExpAnimationRefactor(self, self.Property_.FlashColor)
         self.ani_flash_color.init(1/16, 1, self._flash_color, self._flash_color)
 
         self.flash_timer = QTimer()
@@ -75,7 +75,7 @@ class SiProgressBarRefactor(QProgressBar):
         self._manager = WidgetToolTipRedirectEventFilter()
         self.installEventFilter(self._manager)
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def progressColor(self):
         return self._prog_color
 
@@ -84,7 +84,7 @@ class SiProgressBarRefactor(QProgressBar):
         self._prog_color = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def progressValue(self):
         return self._prog_value
 
@@ -93,7 +93,7 @@ class SiProgressBarRefactor(QProgressBar):
         self._prog_value = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def flashColor(self):
         return self._flash_color
 

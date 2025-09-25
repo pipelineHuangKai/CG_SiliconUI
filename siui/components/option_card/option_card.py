@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt
+from Qt.QtCore import Qt
 
 from siui.components.option_card.abstracts.option_card import ABCSiOptionCardPlane
 from siui.components.widgets.abstracts.widget import SiWidget

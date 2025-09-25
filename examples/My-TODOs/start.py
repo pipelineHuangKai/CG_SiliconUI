@@ -1,12 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication
+from Qt.QtWidgets import QApplication
 from ui import MySiliconApp
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    from siui.qt_utils import render_ui
+    with render_ui():
+        window = MySiliconApp()
+        window.show()
 
-    window = MySiliconApp()
-    window.show()
-
-    sys.exit(app.exec_())

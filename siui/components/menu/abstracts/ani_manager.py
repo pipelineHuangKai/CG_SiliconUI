@@ -1,8 +1,8 @@
 import time
 from enum import Enum
 
-from PyQt5.QtWidgets import QApplication, QDesktopWidget
-
+from Qt.QtWidgets import QApplication
+from ....qtpy import QGuiApplication
 from siui.components.menu.abstracts.menu import ABCSiMenu
 from siui.core import SiColor
 
@@ -20,7 +20,8 @@ class ABCAnimationManager:
 class AnimationManagerPullDown(ABCAnimationManager):
     @staticmethod
     def on_parent_unfolded(parent, x, y):
-        screen_geo = QDesktopWidget().screenGeometry()
+        # screen_geo = QDesktopWidget().screenGeometry()
+        screen_geo = QGuiApplication.primaryScreen().geometry()
         x = min(max(32, x), screen_geo.width() - parent.sizeHint().width())
         y = min(max(32, y), screen_geo.height() - parent.sizeHint().height())
 
@@ -59,7 +60,8 @@ class AnimationManagerPullDown(ABCAnimationManager):
 class AnimationManagerRaiseUp(ABCAnimationManager):
     @staticmethod
     def on_parent_unfolded(parent, x, y):
-        screen_geo = QDesktopWidget().screenGeometry()
+        # screen_geo = QDesktopWidget().screenGeometry()
+        screen_geo = QGuiApplication.primaryScreen().geometry()
         x = min(max(32, x), screen_geo.width() - parent.sizeHint().width())
         y = min(max(32, y), screen_geo.height() - parent.sizeHint().height())
 

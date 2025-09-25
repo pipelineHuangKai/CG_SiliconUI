@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import math
 
-from PyQt5.QtCore import QEvent, QPoint, QPointF, QRect, QRectF, QSize, Qt, QTimer, pyqtProperty, pyqtSignal
-from PyQt5.QtGui import QColor, QFont, QPainter, QPainterPath, QPen, QPixmap, QValidator
-from PyQt5.QtWidgets import (
+from Qt.QtCore import QEvent, QPoint, QPointF, QRect, QRectF, QSize, Qt, QTimer, Property, Signal
+from Qt.QtGui import QColor, QFont, QPainter, QPainterPath, QPen, QPixmap, QValidator
+from Qt.QtWidgets import (
     QAbstractSlider,
     QAbstractSpinBox,
     QBoxLayout,
@@ -42,7 +42,7 @@ class SliderStyleData:
 
 
 class SiSlider(QAbstractSlider):
-    class Property:
+    class Property_:
         ThumbColor = "thumbColor"
         TrackProgress = "trackProgress"
 
@@ -61,16 +61,16 @@ class SiSlider(QAbstractSlider):
         self._value_to_tooltip_func = self._defaultValueToToolTip
         self._is_draw_track = True
 
-        self.thumb_color_ani = SiExpAnimationRefactor(self, self.Property.ThumbColor)
+        self.thumb_color_ani = SiExpAnimationRefactor(self, self.Property_.ThumbColor)
         self.thumb_color_ani.init(1/4, 0.01, self._thumb_color, self._thumb_color)
 
-        self.progress_ani = SiExpAnimationRefactor(self, self.Property.TrackProgress)
+        self.progress_ani = SiExpAnimationRefactor(self, self.Property_.TrackProgress)
         self.progress_ani.init(1/3.5, 0.00001, 0, 0)
 
         self.valueChanged.connect(self._onValueChanged)
         self.rangeChanged.connect(self._onRangeChanged)
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def thumbColor(self):
         return self._thumb_color
 
@@ -79,7 +79,7 @@ class SiSlider(QAbstractSlider):
         self._thumb_color = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def trackProgress(self):
         return self._track_progress
 
@@ -110,7 +110,7 @@ class SiSlider(QAbstractSlider):
 
     def _onRangeChanged(self, _, __):
         p = (self.value() - self.minimum()) / (self.maximum() - self.minimum())
-        self.setProperty(self.Property.TrackProgress, p)
+        self.setProperty(self.Property_.TrackProgress, p)
         self.progress_ani.fromProperty()
         self.progress_ani.setCurrentValue(p)
         self.progress_ani.setEndValue(p)
@@ -304,7 +304,7 @@ class CoordinatePickerStyleData:
 
 
 class SiCoordinatePicker2D(QWidget):
-    class Property:
+    class Property_:
         ProgressX = "progressX"
         ProgressY = "progressY"
         IndicatorRect = "indicatorRect"
@@ -330,13 +330,13 @@ class SiCoordinatePicker2D(QWidget):
         self.slider_x = SiSlider(self)
         self.slider_y = SiSlider(self)
 
-        self.thumb_color_ani = SiExpAnimationRefactor(self, self.Property.ThumbColor)
+        self.thumb_color_ani = SiExpAnimationRefactor(self, self.Property_.ThumbColor)
         self.thumb_color_ani.init(1/4, 0.01, self._thumb_color, self._thumb_color)
 
-        self.progress_x_ani = SiExpAnimationRefactor(self, self.Property.ProgressX)
+        self.progress_x_ani = SiExpAnimationRefactor(self, self.Property_.ProgressX)
         self.progress_x_ani.init(1/3.5, 0.00001, 0, 0)
 
-        self.progress_y_ani = SiExpAnimationRefactor(self, self.Property.ProgressY)
+        self.progress_y_ani = SiExpAnimationRefactor(self, self.Property_.ProgressY)
         self.progress_y_ani.init(1/3.5, 0.00001, 0, 0)
 
         self._initStyle()
@@ -360,7 +360,7 @@ class SiCoordinatePicker2D(QWidget):
         # self.slider_y.style_data.thumb_idle_color = QColor("#eaa9c4")
         # self.slider_y.style_data.track_color = QColor("#b96f98")
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def thumbColor(self):
         return self._thumb_color
 
@@ -369,7 +369,7 @@ class SiCoordinatePicker2D(QWidget):
         self._thumb_color = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def progressX(self):
         return self._progress_x
 
@@ -378,7 +378,7 @@ class SiCoordinatePicker2D(QWidget):
         self._progress_x = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def progressY(self):
         return self._progress_y
 
@@ -387,7 +387,7 @@ class SiCoordinatePicker2D(QWidget):
         self._progress_y = value
         self.update()
 
-    @pyqtProperty(QRectF)
+    @Property(QRectF)
     def indicatorRect(self):
         return self._indicator_rect
 
@@ -404,7 +404,7 @@ class SiCoordinatePicker2D(QWidget):
         self.setToolTip(func(self.value()))
 
     def _isMouseInThumbRect(self, pos: QPoint) -> bool:
-        rect: QRect = self.property(self.Property.IndicatorRect)
+        rect: QRect = self.property(self.Property_.IndicatorRect)
         return rect.contains(pos)
 
     def _isMousePosValid(self, pos: QPoint) -> bool:
@@ -422,7 +422,7 @@ class SiCoordinatePicker2D(QWidget):
             self.thumb_color_ani.start()
 
     def _updateDraggingAnchor(self) -> None:
-        indicator_outline_rect = self.property(self.Property.IndicatorRect)
+        indicator_outline_rect = self.property(self.Property_.IndicatorRect)
         self._dragging_anchor_pos = indicator_outline_rect.center()
 
     def _setValueToMousePos(self, pos: QPoint) -> None:
@@ -480,7 +480,7 @@ class SiCoordinatePicker2D(QWidget):
         d = self.style_data.indicator_outline_weight
         indicator_rect = QRectF(x, y, indicator_size, indicator_size)
         indicator_outline_rect = QRectF(x - d, y - d, indicator_size + d * 2, indicator_size + d * 2)
-        self.setProperty(self.Property.IndicatorRect, indicator_outline_rect)
+        self.setProperty(self.Property_.IndicatorRect, indicator_outline_rect)
 
         painter.setBrush(self.style_data.background_color)
         painter.drawPath(self._drawIndicatorPath(indicator_outline_rect))
@@ -591,7 +591,7 @@ class SiCoordinatePicker2D(QWidget):
 
 
 class SiCoordinatePicker3D(SiCoordinatePicker2D):
-    class Property:
+    class Property_:
         ProgressX = "progressX"
         ProgressY = "progressY"
         ProgressZ = "progressZ"
@@ -607,12 +607,12 @@ class SiCoordinatePicker3D(SiCoordinatePicker2D):
         self.slider_z = SiSlider(self)
         self.slider_z.setVisible(False)
 
-        self.progress_z_ani = SiExpAnimationRefactor(self, self.Property.ProgressZ)
+        self.progress_z_ani = SiExpAnimationRefactor(self, self.Property_.ProgressZ)
         self.progress_z_ani.init(1/4, 0.00001, 0, 0)
 
         self.slider_z.valueChanged.connect(self._onSliderZValueChanged)
 
-    @pyqtProperty(float)
+    @Property(float)
     def progressZ(self):
         return self._progress_z
 
@@ -678,7 +678,7 @@ class SiCoordinatePicker3D(SiCoordinatePicker2D):
         d = self.style_data.indicator_outline_weight
         indicator_rect = QRectF(x, y, indicator_size, indicator_size)
         indicator_outline_rect = QRectF(x - d, y - d, indicator_size + d * 2, indicator_size + d * 2)
-        self.setProperty(self.Property.IndicatorRect, indicator_outline_rect)
+        self.setProperty(self.Property_.IndicatorRect, indicator_outline_rect)
 
         # painter.setBrush(self.style_data.background_color)
         # painter.drawPath(self._drawIndicatorPath(indicator_outline_rect))
@@ -738,10 +738,10 @@ class SiCoordinatePicker3D(SiCoordinatePicker2D):
 
 
 class SiWheelSpinBox(QSpinBox):
-    limitReached = pyqtSignal(float)
-    carried = pyqtSignal(int)
-    increased = pyqtSignal()
-    decreased = pyqtSignal()
+    limitReached = Signal(float)
+    carried = Signal(int)
+    increased = Signal()
+    decreased = Signal()
 
     def wheelEvent(self, e):
         super().wheelEvent(e)
@@ -777,9 +777,9 @@ class SiWheelSpinBox(QSpinBox):
 
 class SiWeekdaySpinBox(QSpinBox):
     WEEKDAYS = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
-    limitReached = pyqtSignal(float)
-    increased = pyqtSignal()
-    decreased = pyqtSignal()
+    limitReached = Signal(float)
+    increased = Signal()
+    decreased = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -1068,7 +1068,7 @@ class ScrollBarStyleData:
 
 class SiScrollBar(QScrollBar):
 
-    class Property:
+    class Property_:
         ThumbColor = "thumbColor"
         TrackProgress = "trackProgress"
         ColorOpacity = "colorOpacity"
@@ -1089,19 +1089,19 @@ class SiScrollBar(QScrollBar):
         self._value_to_tooltip_func = self._defaultValueToToolTip
         self._is_draw_track = True
 
-        self.thumb_color_ani = SiExpAnimationRefactor(self, self.Property.ThumbColor)
+        self.thumb_color_ani = SiExpAnimationRefactor(self, self.Property_.ThumbColor)
         self.thumb_color_ani.init(1/4, 0.01, self._thumb_color, self._thumb_color)
 
-        self.progress_ani = SiExpAnimationRefactor(self, self.Property.TrackProgress)
+        self.progress_ani = SiExpAnimationRefactor(self, self.Property_.TrackProgress)
         self.progress_ani.init(1/3.5, 0.00001, 0, 0)
 
-        self.color_opacity_ani = SiExpAnimationRefactor(self, self.Property.ColorOpacity)
+        self.color_opacity_ani = SiExpAnimationRefactor(self, self.Property_.ColorOpacity)
         self.color_opacity_ani.init(1/6, 0.00001, 1, 1)
 
         self.valueChanged.connect(self._onValueChanged)
         self.rangeChanged.connect(self._onRangeChanged)
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def thumbColor(self):
         return self._thumb_color
 
@@ -1110,7 +1110,7 @@ class SiScrollBar(QScrollBar):
         self._thumb_color = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def trackProgress(self):
         return self._track_progress
 
@@ -1119,7 +1119,7 @@ class SiScrollBar(QScrollBar):
         self._track_progress = value
         self.update()
 
-    @pyqtProperty(float)
+    @Property(float)
     def colorOpacity(self):
         return self._color_opacity
 
@@ -1158,7 +1158,7 @@ class SiScrollBar(QScrollBar):
             self.color_opacity_ani.start()
 
             p = (self.value() - self.minimum()) / (self.maximum() - self.minimum())
-            self.setProperty(self.Property.TrackProgress, p)
+            self.setProperty(self.Property_.TrackProgress, p)
             self.progress_ani.fromProperty()
             self.progress_ani.setCurrentValue(p)
             self.progress_ani.setEndValue(p)
@@ -1325,7 +1325,7 @@ class SiScrollBar(QScrollBar):
 
 
 class SiScrollAreaRefactor(QScrollArea):
-    class Property:
+    class Property_:
         ContentsPos = "contentsPos"
 
     def __init__(self, parent: T_WidgetParent = None) -> None:
@@ -1335,7 +1335,7 @@ class SiScrollAreaRefactor(QScrollArea):
 
         self._contents_visual_pos = QPointF(0.0, 0.0)
         self._contents_anchor_pos = QPointF(0.0, 0.0)
-        self.contents_pos_ani = SiExpAnimationRefactor(self, self.Property.ContentsPos)
+        self.contents_pos_ani = SiExpAnimationRefactor(self, self.Property_.ContentsPos)
         self.contents_pos_ani.init(1/6, 2, self._contents_visual_pos, self._contents_visual_pos)
 
         self._initScrollBar()
@@ -1345,7 +1345,7 @@ class SiScrollAreaRefactor(QScrollArea):
         self.pileScrollTimer.setSingleShot(True)
         self.pileScrollTimer.timeout.connect(self._onPileScrollTriggered)
 
-    @pyqtProperty(QPointF)
+    @Property(QPointF)
     def contentsPos(self):
         return self._contents_visual_pos
 
@@ -1479,8 +1479,8 @@ class SiScrollAreaGraphicWidget(QWidget):
         return self._scroll_area
 
     def fadeIn(self) -> None:
-        translate_ani = self._proxy_widget.animation(self._proxy_widget.Property.Translate)
-        opacity_ani = self._proxy_widget.animation(self._proxy_widget.Property.Opacity)
+        translate_ani = self._proxy_widget.animation(self._proxy_widget.Property_.Translate)
+        opacity_ani = self._proxy_widget.animation(self._proxy_widget.Property_.Opacity)
 
         translate_ani.setCurrentValue(QPointF(0, 50))
         translate_ani.setEndValue(QPointF(0, 0))
@@ -1496,4 +1496,4 @@ class SiScrollAreaGraphicWidget(QWidget):
         self._scene.setSceneRect(QRectF(0, 0, self.width(), self.height()))
         self._scroll_area.resize(self.size())
 
-        self._proxy_widget.setProperty(self._proxy_widget.Property.Center, QPointF(self.width() / 2, self.height() / 2))
+        self._proxy_widget.setProperty(self._proxy_widget.Property_.Center, QPointF(self.width() / 2, self.height() / 2))

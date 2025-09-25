@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QGraphicsOpacityEffect
+from Qt.QtCore import Qt, QTimer
+from Qt.QtGui import QFont
+from Qt.QtWidgets import QGraphicsOpacityEffect
 
 from siui.components import SiDenseVContainer, SiLabel
 from siui.components.widgets.expands import SiVExpandWidget

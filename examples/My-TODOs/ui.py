@@ -1,8 +1,9 @@
 import icons
 from components.page_about import About
 from components.page_homepage import Homepage
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QDesktopWidget
+from Qt.QtGui import QIcon
+# from Qt.QtWidgets import QDesktopWidget
+from siui.qtpy import QGuiApplication
 
 import siui
 from siui.core import SiColor, SiGlobal
@@ -18,7 +19,8 @@ class MySiliconApp(SiliconApplication):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        screen_geo = QDesktopWidget().screenGeometry()
+        screen_geo = QGuiApplication.primaryScreen().geometry()
+        # screen_geo = QDesktopWidget().screenGeometry()
         self.setMinimumSize(1024, 380)
         self.resize(1366, 916)
         self.move((screen_geo.width() - self.width()) // 2, (screen_geo.height() - self.height()) // 2)

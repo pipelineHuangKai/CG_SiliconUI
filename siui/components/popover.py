@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from PyQt5.QtCore import QDate, QEvent, QPoint, QPointF, QRectF, QSize, Qt, pyqtProperty, pyqtSignal
-from PyQt5.QtGui import QColor, QPainter, QPainterPath
-from PyQt5.QtWidgets import QButtonGroup, QLabel, QMenu, QStackedWidget, QWidget
+from Qt.QtCore import QDate, QEvent, QPoint, QPointF, QRectF, QSize, Qt, Property, Signal
+from Qt.QtGui import QColor, QPainter, QPainterPath
+from Qt.QtWidgets import QButtonGroup, QLabel, QMenu, QStackedWidget, QWidget
 
 from siui.components.button import SiFlatButton, SiFlatButtonWithIndicator
 from siui.components.container import SiDenseContainer
@@ -245,8 +245,8 @@ class SiPopoverDatePicker(SiDenseContainer):
 
 
 class SiCalenderDateWidget(QWidget):
-    hovered = pyqtSignal(QWidget)
-    clicked = pyqtSignal(QWidget)
+    hovered = Signal(QWidget)
+    clicked = Signal(QWidget)
 
     class VisualState:
         Muted = 0
@@ -340,11 +340,11 @@ class AnimatedCalenderStyleData:
 
 
 class SiAnimatedCalender(SiDenseContainer):
-    pageChanged = pyqtSignal(int)
-    selectedDateChanged = pyqtSignal(QDate)
+    pageChanged = Signal(int)
+    selectedDateChanged = Signal(QDate)
     # focus
 
-    class Property:
+    class Property_:
         IndicatorPos = "indicatorPos"
         IndicatorColor = "indicatorColor"
         CursorIndicatorPos = "cursorIndicatorPos"
@@ -366,16 +366,16 @@ class SiAnimatedCalender(SiDenseContainer):
         self._cur_indi_pos = QPointF(0, 0)
         self._cur_indi_color = QColor("#004C4554")
 
-        self.ani_indi_pos = SiExpAnimationRefactor(self, self.Property.IndicatorPos)
+        self.ani_indi_pos = SiExpAnimationRefactor(self, self.Property_.IndicatorPos)
         self.ani_indi_pos.init(1/4, 0.01, self._indi_pos, self._indi_pos)
 
-        self.ani_indi_color = SiExpAnimationRefactor(self, self.Property.IndicatorColor)
+        self.ani_indi_color = SiExpAnimationRefactor(self, self.Property_.IndicatorColor)
         self.ani_indi_color.init(1/8, 0.01, self._indi_color, self._indi_color)
 
-        self.ani_cur_indi_pos = SiExpAnimationRefactor(self, self.Property.CursorIndicatorPos)
+        self.ani_cur_indi_pos = SiExpAnimationRefactor(self, self.Property_.CursorIndicatorPos)
         self.ani_cur_indi_pos.init(1/4, 0.01, self._cur_indi_pos, self._cur_indi_pos)
 
-        self.ani_cur_indi_color = SiExpAnimationRefactor(self, self.Property.CursorIndicatorColor)
+        self.ani_cur_indi_color = SiExpAnimationRefactor(self, self.Property_.CursorIndicatorColor)
         self.ani_cur_indi_color.init(1/8, 0.01, self._cur_indi_color, self._cur_indi_color)
 
         self._createDayTypeLabels()
@@ -388,7 +388,7 @@ class SiAnimatedCalender(SiDenseContainer):
         self.layout().setSpacing(0)
         self.layout().removeWidget(self.stretchWidget())
 
-    @pyqtProperty(QPointF)
+    @Property(QPointF)
     def indicatorPos(self):
         return self._indi_pos
 
@@ -397,7 +397,7 @@ class SiAnimatedCalender(SiDenseContainer):
         self._indi_pos = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def indicatorColor(self):
         return self._indi_color
 
@@ -406,7 +406,7 @@ class SiAnimatedCalender(SiDenseContainer):
         self._indi_color = value
         self.update()
 
-    @pyqtProperty(QPointF)
+    @Property(QPointF)
     def cursorIndicatorPos(self):
         return self._cur_indi_pos
 
@@ -415,7 +415,7 @@ class SiAnimatedCalender(SiDenseContainer):
         self._cur_indi_pos = value
         self.update()
 
-    @pyqtProperty(QColor)
+    @Property(QColor)
     def cursorIndicatorColor(self):
         return self._cur_indi_color
 

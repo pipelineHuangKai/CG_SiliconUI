@@ -1,8 +1,8 @@
 import sys
 import time
 
-from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QApplication
+from Qt.QtCore import QTimer
+from Qt.QtWidgets import QApplication
 from ui import MySiliconApp
 
 import siui
@@ -37,12 +37,12 @@ def show_version_message(window):
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    from siui.qt_utils import render_ui
 
-    window = MySiliconApp()
-    window.show()
+    with render_ui():
+        window = MySiliconApp()
+        window.show()
 
-    timer = QTimer(window)
-    timer.singleShot(500, lambda: show_version_message(window))
+        timer = QTimer(window)
+        timer.singleShot(500, lambda: show_version_message(window))
 
-    sys.exit(app.exec_())

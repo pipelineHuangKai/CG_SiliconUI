@@ -1,5 +1,5 @@
 import pyperclip
-from PyQt5.QtCore import Qt
+from Qt.QtCore import Qt
 
 from siui.components import (
     SiDenseHContainer,

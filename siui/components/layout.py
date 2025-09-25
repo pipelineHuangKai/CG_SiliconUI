@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from PyQt5.QtCore import QEvent, QObject, QPoint, QRect, QSize, Qt, pyqtSignal
-from PyQt5.QtGui import QMouseEvent
-from PyQt5.QtWidgets import QLayout, QLayoutItem, QWidget, QWidgetItem
+from Qt.QtCore import QEvent, QObject, QPoint, QRect, QSize, Qt, Signal
+from Qt.QtGui import QMouseEvent
+from Qt.QtWidgets import QLayout, QLayoutItem, QWidget, QWidgetItem
 
 from siui.core import SiQuickEffect
 from siui.core.animation import SiExpAnimationRefactor
@@ -10,18 +10,18 @@ from siui.typing import T_WidgetParent
 
 
 class AnimatedWidgetItem(QWidgetItem):
-    class Property:
+    class Property_:
         Geometry = "geometry"
 
     def __init__(self, parent: T_WidgetParent = None) -> None:
         super().__init__(parent)
 
-        self.ani_geometry = SiExpAnimationRefactor(parent, self.Property.Geometry)
+        self.ani_geometry = SiExpAnimationRefactor(parent, self.Property_.Geometry)
         self.ani_geometry.init(1/4, 0.2, self.geometry(), self.geometry())
 
     def animation(self, prop_name: str) -> SiExpAnimationRefactor:
         return {
-            self.Property.Geometry: self.ani_geometry,
+            self.Property_.Geometry: self.ani_geometry,
         }.get(prop_name)
 
     def setGeometry(self, a0):
@@ -34,9 +34,9 @@ class AnimatedWidgetItem(QWidgetItem):
 
 
 class DraggingEventFilter(QObject):
-    dropped = pyqtSignal()
-    dragged = pyqtSignal(QPoint)
-    pressed = pyqtSignal()
+    dropped = Signal()
+    dragged = Signal(QPoint)
+    pressed = Signal()
 
     def __init__(self, item: QLayoutItem, target: QWidget, trigger: QWidget):
         super().__init__()
@@ -138,7 +138,7 @@ class DraggingEventFilter(QObject):
 
 class DraggableWidgetItem(QWidgetItem):
 
-    class Property:
+    class Property_:
         Geometry = "geometry"
 
     def __init__(self, parent: T_WidgetParent, trigger: T_WidgetParent) -> None:
@@ -148,7 +148,7 @@ class DraggableWidgetItem(QWidgetItem):
         self._trigger = trigger
         self._trigger.installEventFilter(self._event_filter)
 
-        self.ani_geometry = SiExpAnimationRefactor(parent, self.Property.Geometry)
+        self.ani_geometry = SiExpAnimationRefactor(parent, self.Property_.Geometry)
         self.ani_geometry.init(1/4, 0.2, self.geometry(), self.geometry())
 
     def trigger(self) -> QWidget:
@@ -162,7 +162,7 @@ class DraggableWidgetItem(QWidgetItem):
 
     def animation(self, prop_name: str) -> SiExpAnimationRefactor:
         return {
-            self.Property.Geometry: self.ani_geometry,
+            self.Property_.Geometry: self.ani_geometry,
         }.get(prop_name)
 
     def setGeometry(self, a0):
@@ -341,7 +341,7 @@ class SiFlowLayout(QLayout):
             size = item.geometry().size()
 
             if isinstance(item, (AnimatedWidgetItem, DraggableWidgetItem)):
-                ani = item.animation(item.Property.Geometry)
+                ani = item.animation(item.Property_.Geometry)
                 if ani.state() == ani.State.Running and ani.currentValue().size() == size:
                     size = ani.endValue().size()
 

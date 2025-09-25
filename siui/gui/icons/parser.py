@@ -1,8 +1,8 @@
 import os
 
-from PyQt5.QtCore import QByteArray, QSize, Qt
-from PyQt5.QtGui import QPainter, QPixmap, QIcon
-from PyQt5.QtSvg import QSvgRenderer
+from Qt.QtCore import QByteArray, QSize, Qt
+from Qt.QtGui import QPainter, QPixmap, QIcon
+from Qt.QtSvg import QSvgRenderer
 
 
 class GlobalIconPack:

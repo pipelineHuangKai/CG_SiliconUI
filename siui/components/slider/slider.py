@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QPoint, Qt
-from PyQt5.QtWidgets import QAbstractSlider
+from Qt.QtCore import QPoint, Qt
+from Qt.QtWidgets import QAbstractSlider
 
 from siui.components.widgets import SiDraggableLabel, SiLabel
 from siui.core import Si, SiColor, SiGlobal

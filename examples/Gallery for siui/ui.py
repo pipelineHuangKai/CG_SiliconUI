@@ -9,10 +9,11 @@ from components.page_option_cards import ExampleOptionCards
 from components.page_page_control import ExamplePageControl
 from components.page_refactor import RefactoredWidgets
 from components.page_widgets import ExampleWidgets
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QDesktopWidget
+from Qt.QtGui import QIcon
+# from Qt.QtWidgets import QDesktopWidget
 
 import siui
+from siui.qtpy import QGuiApplication
 from siui.core import SiColor, SiGlobal
 from siui.templates.application.application import SiliconApplication
 
@@ -26,7 +27,8 @@ class MySiliconApp(SiliconApplication):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        screen_geo = QDesktopWidget().screenGeometry()
+        # screen_geo = QDesktopWidget().screenGeometry()
+        screen_geo = QGuiApplication.primaryScreen().geometry()
         self.setMinimumSize(1024, 380)
         self.resize(1366, 916)
         self.move((screen_geo.width() - self.width()) // 2, (screen_geo.height() - self.height()) // 2)
