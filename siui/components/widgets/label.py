@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Date      : 2025-09-27 14:04
+# Author    : huang kai
+# Usage     :
+# Version   :
+# Comment   :
+
+
+# Import built-in modules
+
+
+# Import third-party modules
+
+# Import local modules
 from Qt.QtCore import QPoint, Qt, Signal
 from Qt.QtGui import QPainter, QPainterPath, QPixmap
 from Qt.QtSvg import QSvgWidget
@@ -72,7 +87,11 @@ class SiPixLabel(SiLabel):
 
         painter = QPainter(target)
         painter.setRenderHint(QPainter.Antialiasing, True)
-        painter.setRenderHint(QPainter.HighQualityAntialiasing, True)
+        # 正确：开启抗锯齿（推荐方式）
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        # 可选：开启文本抗锯齿（增强文字平滑度）
+        painter.setRenderHint(QPainter.RenderHint.TextAntialiasing, True)
+        # painter.setRenderHint(QPainter.HighQualityAntialiasing, True)
         painter.setRenderHint(QPainter.SmoothPixmapTransform, True)
 
         path = QPainterPath()

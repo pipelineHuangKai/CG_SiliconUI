@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Date      : 2025-09-27 14:04
+# Author    : huang kai
+# Usage     :
+# Version   :
+# Comment   :
+
+
+# Import built-in modules
+
+
+# Import third-party modules
+
+# Import local modules
 from __future__ import annotations
 
 from Qt.QtCore import QEvent, QMargins, QObject, QPoint, QRect, QRectF, QSize, Qt, QTimer, Property, Signal
@@ -14,7 +29,7 @@ from siui.core.event_filter import DebugEventFilter, WidgetTooltipAcceptEventFil
 from siui.core.globals import SiGlobal
 from siui.gui import SiFont
 from siui.typing import T_WidgetParent
-
+from siui.qt_utils import QGuiApplication
 
 class CheckedIndicatorStyleData:
     independent_indicator_color = QColor("#918497")
@@ -850,7 +865,8 @@ class SiRoundedMenu(QMenu):
         return isinstance(self.parent(), SiRoundedMenu)
 
     def sizeHint(self):
-        screen_rect = QApplication.desktop().availableGeometry()
+        # screen_rect = QApplication.desktop().availableGeometry()
+        screen_rect = QApplication.primaryScreen().availableGeometry()
         container_size = self._container.size()
         expanded_rect = container_size.grownBy(self._margins)
 

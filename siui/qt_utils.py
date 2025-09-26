@@ -9,15 +9,18 @@
 
 # Import built-in modules
 import sys
+import importlib
 import contextlib
 # Import third-party modules
-from Qt import Qt
+import Qt
 from Qt.QtWidgets import QApplication
 
 try:
     from Qt import QDesktopWidget
 except:
     pass
+
+QGuiApplication = importlib.import_module("%s.QtGui" % Qt.__binding__).QGuiApplication
 
 # Import local modules
 
@@ -33,6 +36,7 @@ def get_screen_resolution():
     screen_width = screen_rect.width()
     screen_height = screen_rect.height()
     return screen_width, screen_height
+
 
 
 @contextlib.contextmanager

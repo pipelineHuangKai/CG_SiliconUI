@@ -313,7 +313,8 @@ class ABCButton(QPushButton):
 
     def sizeHint(self) -> QSize:
         font_metrics = QFontMetrics(self.font())
-        text_width = font_metrics.width(self.text())
+        # text_width = font_metrics.width(self.text())
+        text_width = font_metrics.horizontalAdvance(self.text())  # 正确：使用替代方法
         text_height = font_metrics.height()
         icon_width = self.iconSize().width() if not self.icon().isNull() else 0
         icon_height = self.iconSize().height() if not self.icon().isNull() else 0

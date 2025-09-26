@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Date      : 2025-09-27 14:04
+# Author    : huang kai
+# Usage     :
+# Version   :
+# Comment   :
+
+
+# Import built-in modules
+
+
+# Import third-party modules
+
+# Import local modules
 from Qt.QtCore import Qt
 
 from siui.components.option_card.abstracts.option_card import ABCSiOptionCardPlane
@@ -13,7 +28,7 @@ class SiOptionCardLinear(SiWidget):
         super().__init__(*args, **kwargs)
 
         self.panel = SiLabel(self)
-        self.panel.setFixedStyleSheet(f"background-color:{SiGlobal.siui.colors['INTERFACE_BG_C']}; border-radius:4px")
+        self.panel.setFixedStyleSheet("background-color:{}; border-radius:4px".format(SiGlobal.siui.colors['INTERFACE_BG_C']))
 
         # 设定最小高度
         self.setMinimumHeight(80)
@@ -69,7 +84,7 @@ class SiOptionCardLinear(SiWidget):
 
         self.adjustSize()
 
-    def setText(self, text: str):
+    def setText(self, text):
         raise AttributeError("请使用 setTitle 方法设置选项卡文字")
 
     def load(self, path_or_data):
@@ -130,7 +145,7 @@ class SiOptionCardPlane(ABCSiOptionCardPlane):
         super().reloadStyleSheet()
         self.title.setStyleSheet("color: {}".format(SiGlobal.siui.colors["TEXT_A"]))
 
-    def setTitle(self, text: str):
+    def setTitle(self, text):
         """
         设置标题
         :param text: 标题

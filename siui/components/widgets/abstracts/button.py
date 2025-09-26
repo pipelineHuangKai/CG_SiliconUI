@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Date      : 2025-09-27 14:04
+# Author    : huang kai
+# Usage     :
+# Version   :
+# Comment   :
+
+
+# Import built-in modules
+
+
+# Import third-party modules
+
+# Import local modules
 import time
 
 import numpy
@@ -92,7 +107,7 @@ class ABCButton(QPushButton):
         """
         return self.color_group
 
-    def setHint(self, text: str):
+    def setHint(self, text):
         """
         设置工具提示
         :param text: 内容
@@ -140,7 +155,7 @@ class ABCButton(QPushButton):
         """ get the hover-highlight label """
         return self.hover_highlight
 
-    def setFlashOnClicked(self, b: bool):
+    def setFlashOnClicked(self, b):
         """
         设置是否启用点击动画
         :param b: 是否启用
@@ -357,7 +372,7 @@ class ABCToggleButton(ABCButton):
     def colorLabel(self):
         return self.color_label
 
-    def setBorderRadius(self, r: int):
+    def setBorderRadius(self, r):
         """
         设置边框圆角半径
         :param r: 半径

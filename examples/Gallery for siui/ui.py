@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Date      : 2025-09-27 14:04
+# Author    : huang kai
+# Usage     :
+# Version   :
+# Comment   :
+
+
+# Import built-in modules
+
+
+# Import third-party modules
+
+# Import local modules
 import icons
 from components.page_about import About
 from components.page_container import ExampleContainer
@@ -13,7 +28,7 @@ from Qt.QtGui import QIcon
 # from Qt.QtWidgets import QDesktopWidget
 
 import siui
-from siui.qtpy import QGuiApplication
+from siui.qt_utils import QGuiApplication
 from siui.core import SiColor, SiGlobal
 from siui.templates.application.application import SiliconApplication
 

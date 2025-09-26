@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Date      : 2025-09-27 14:04
+# Author    : huang kai
+# Usage     :
+# Version   :
+# Comment   :
+
+
+# Import built-in modules
+
+
+# Import third-party modules
+
+# Import local modules
 from Qt.QtCore import Qt, QUrl
 from Qt.QtGui import QDesktopServices
 from Qt.QtWidgets import QSizePolicy
@@ -40,7 +55,7 @@ class About(SiPage):
         self.version_label = SiLabel(self)
         self.version_label.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
         self.version_label.setFont(SiFont.tokenized(GlobalFont.M_NORMAL))
-        self.version_label.setStyleSheet(f"color: {self.getColor(SiColor.TEXT_D)}")
+        self.version_label.setStyleSheet("color: {}".format(self.getColor(SiColor.TEXT_D)))
         self.version_label.setText("PyQt-SiliconUI")
 
         version_picture_container.addWidget(self.version_picture)

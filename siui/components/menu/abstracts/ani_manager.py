@@ -1,8 +1,23 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Date      : 2025-09-27 14:04
+# Author    : huang kai
+# Usage     :
+# Version   :
+# Comment   :
+
+
+# Import built-in modules
+
+
+# Import third-party modules
+
+# Import local modules
 import time
 from enum import Enum
 
 from Qt.QtWidgets import QApplication
-from ....qtpy import QGuiApplication
+from siui.qt_utils import QGuiApplication
 from siui.components.menu.abstracts.menu import ABCSiMenu
 from siui.core import SiColor
 
