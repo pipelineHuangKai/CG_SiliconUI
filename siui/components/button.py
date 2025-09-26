@@ -8,6 +8,7 @@ from Qt.QtCore import (
     QEvent,
     QMargins,
     QObject,
+    QPoint,
     QPointF,
     QRect,
     QRectF,
@@ -1903,7 +1904,7 @@ class SiCheckBoxRefactor(QAbstractButton):
 
     def _drawIndicator(self, painter: QPainter, rect: QRect) -> None:
         checkmark_path = self._getCheckmarkPath()
-        checkmark_path.translate(rect.center() - QPointF(9.5, 9.25))
+        checkmark_path.translate(rect.center().x() - 9.5, rect.center().y() - 9.25)
 
         if self.autoExclusive():
             outer_path = QPainterPath()
@@ -2478,7 +2479,7 @@ class SiOptionButton(QAbstractButton):
 
     def _drawGlyph(self, painter: QPainter, rect: QRect) -> None:
         glyph_path = self._getGlyphPath()
-        glyph_path.translate(rect.center() - QPointF(9.5, 9.25))
+        glyph_path.translate(rect.center().x()-9.5,  rect.center().y()-9.25)
         painter.setPen(Qt.NoPen)
         painter.setBrush(self.style_data.glyph_color)
         painter.drawPath(glyph_path)

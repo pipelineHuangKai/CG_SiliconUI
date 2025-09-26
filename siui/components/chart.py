@@ -314,7 +314,7 @@ class SiTrendChart(QWidget):
         pen.setWidthF(2)
         pen.setCapStyle(Qt.RoundCap)
         painter.setPen(pen)
-        painter.drawPolyline(*points)
+        painter.drawPolyline(points)
 
     def _drawDataLinePixmap(self, painter: QPainter, rect: QRectF) -> None:
         painter.drawPixmap(rect.toRect(), self._shown_point_pixmap)
@@ -353,7 +353,8 @@ class SiTrendChart(QWidget):
         super().mouseMoveEvent(a0)
 
         chart_rect = self._getChartRect()
-        pos = a0.pos() - chart_rect.topLeft()
+        # pos = a0.pos() - chart_rect.topLeft()
+        pos = QPointF(a0.pos()) - chart_rect.topLeft()
         cpos = self.posToCoordinate(pos, chart_rect)
         closest_point = self._findClosestDataPoint(cpos.x())
 

@@ -1,5 +1,4 @@
 import sys
-from Qt.QtWidgets import QApplication
 from ui import MySiliconApp
 
 
